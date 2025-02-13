@@ -57,9 +57,76 @@ int cpu(char *buffer)
     imm = instruction<<8
 
     switch(opcode){
-      case 0000
-    }
+      case 0:
+        regs[rd] = sext(imm);
+        pc+=1;
+        break;
+      case 1:
+        regs[rd] = regs[rd] + regs[rs];
+        pc+=1;
+        break;
+      case 2:
+        regs[rd] = regs[rs] + sext(imm);
+        pc+=1;
+        break;
+      case 3:
+        regs[rd] = regs[rd] - regs[rs];
+        pc+=1;
+        break;
+      case 4:
+        regs[rd] = regs[rd] ^ regs[rs];
+        pc+=1;
+        break;
+      case 5:
+        regs[rd] = regs[rd] | regs[rs];
+        pc+=1;
+        break;
+      case 6:
+        regs[rd] = regs[rd] & regs[rs];
+        pc+=1;
+        break;
+      case 7:
+        regs[rd] = regs[rd] >> 1;
+        pc+=1;
+        break;
+      case 8:
+        regs[rd] = regs[rd] | imm;
+        pc+=1;
+        break;
+      
+      case 9:
+        regs[rd] = regs[rd] | (imm<<8);
+        pc+=1;
+        break;
+        
+      case 0xA:
+        regs[rd] = mem[regs[rs]];
+        pc+=1;
+        break;
+      
+      case 0xB:
+        mem[rs] = regs[rd]
+        pc+=1;
+        break;
 
+      case 0xC:
+        if (mem[rd]<mem[rs]){
+          pc += sext(imm);
+        }
+        else{
+          pc += 1;
+        }
+        break;
+
+      case 0xD:
+        if (mem[rd]==mem[rs]){
+          pc += sext(imm);
+        }
+        else{
+          pc+=1
+        }
+        break;
+      }
   }
   return 0;
 }
